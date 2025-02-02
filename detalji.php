@@ -33,13 +33,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $pocetno_vreme = $_POST['pocetno_vreme'];
   $krajnje_vreme = $_POST['krajnje_vreme'];
   $userId = $_SESSION['user']['id'];
-  $success = Rezervacija::napraviRezervaciju($userId, $prostor_id, $datum, $pocetno_vreme, $krajnje_vreme, $db);
-  if ($success) {
-    $msg = "Rezervacija je uspješno kreirana!";
-  } else {
-    $error = "Termin je već rezervisan ili je došlo do greške.";
+
+  // Dohvati današnji datum
+  $today = date('Y-m-d');
+
+  // Provjeri da li je odabrani datum u prošlosti
+  if ($datum < $today) {
+      $error = "Ne možete rezervisati termin za dan koji je prosao.";
+  } elseif ($datum == $today) { // Ako je rezervacija za danas, provjeri početno vrijeme
+      $nextFullHour = date('H:00', strtotime('+1 hour'));
+      if ($pocetno_vreme < $nextFullHour) {
+          $error = "Rezervacija mora biti zakazana za vreme nakon " . $nextFullHour . " danas.";
+      }
+  }
+
+  // Ako nema greške, nastavi s kreiranjem rezervacije
+  if (!isset($error)) {
+      $success = Rezervacija::napraviRezervaciju($userId, $prostor_id, $datum, $pocetno_vreme, $krajnje_vreme, $db);
+      if ($success) {
+          $msg = "Rezervacija je uspešno kreirana!";
+      } else {
+          $error = "Termin je već rezervisan ili je došlo do greške.";
+      }
   }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,13 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Rezerviši Termin</h2>
         <?php if(isset($error)) { echo "<p class='error'>$error</p>"; } ?>
         <form action="detalji.php?prostor_id=<?php echo $prostor_id; ?>" method="post">
-          <label for="datum">Datum (YYYY-MM-DD)</label>
+          <label for="datum">Datum</label>
           <input type="date" id="datum" name="datum" required>
           
-          <label for="pocetno_vreme">Od (HH:MM)</label>
+          <label for="pocetno_vreme">Od</label>
           <input type="time" id="pocetno_vreme" name="pocetno_vreme" required>
           
-          <label for="krajnje_vreme">Do (HH:MM)</label>
+          <label for="krajnje_vreme">Do</label>
           <input type="time" id="krajnje_vreme" name="krajnje_vreme" required>
           
           <button type="submit">Rezerviši</button>

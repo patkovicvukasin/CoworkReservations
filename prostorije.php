@@ -46,6 +46,7 @@ $prostori = Prostor::sviProstori($db);
               <img src="images/<?php echo htmlspecialchars($prostor['slika']); ?>" alt="<?php echo htmlspecialchars($prostor['naziv']); ?>" class="prostor-thumb">
             <?php endif; ?>
             <p><strong>Kapacitet:</strong> <?php echo $prostor['kapacitet']; ?> osoba</p>
+            <p><strong>Adresa:</strong> <?php echo $prostor['adresa']; ?> </p>
             <p><strong>Cena po satu:</strong> <?php echo $prostor['cena_po_satu']; ?> RSD</p>
             <a href="detalji.php?prostor_id=<?php echo $prostor['id']; ?>" class="btn">Pogledaj Detalje</a>
           </div>

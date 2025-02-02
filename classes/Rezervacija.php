@@ -35,13 +35,16 @@ class Rezervacija {
     }
 
     public static function mojeRezervacije($korisnikId, $db) {
-        // Izvršavamo join s tabelom prostor kako bi se dobio naziv prostora
-        $query = "SELECT r.*, p.naziv AS prostor_naziv FROM rezervacije r JOIN prostor p ON r.prostor_id = p.id WHERE r.korisnik_id = ?";
+        $query = "SELECT r.*, p.naziv AS prostor_naziv, p.adresa AS prostor_adresa 
+                  FROM rezervacije r 
+                  JOIN prostor p ON r.prostor_id = p.id 
+                  WHERE r.korisnik_id = ?";
         $stmt = $db->conn->prepare($query);
         $stmt->bind_param("i", $korisnikId);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    
 }
 
 ?>

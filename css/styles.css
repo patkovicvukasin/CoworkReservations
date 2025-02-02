@@ -217,7 +217,7 @@
     background: #fff;
     border: 1px solid #ddd;
     padding: 20px;
-    width: 280px;
+    width: 320px;  /* Kartica je malo šira */
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     text-align: center;
@@ -237,16 +237,17 @@
     font-size: 0.95rem;
   }
   
-  /* Slike u karticama – fiksne dimenzije */
+  /* Slike u karticama – fiksne dimenzije i centrirane */
   .prostor-thumb {
     width: 260px;
     height: 160px;
     object-fit: cover;
     border-radius: 4px;
     display: block;
-    margin: 10px auto;
+    margin: 10px auto;  /* Centriranje slike unutar kartice */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+  
   
   /* Rezervacije – prikaz tablice */
   .moje-rezervacije {
@@ -367,4 +368,3 @@
     text-align: center;
     margin-top: 15px;
   }
-  
