@@ -17,10 +17,14 @@ class Prostor {
 
     public static function sviProstori($db, $sort = null) {
         $query = "SELECT * FROM prostor WHERE status = 'dostupno'";
-        if ($sort == 'kapacitet') {
-            $query .= " ORDER BY kapacitet";
-        } elseif ($sort == 'cena') {
-            $query .= " ORDER BY cena_po_satu";
+        if ($sort == 'cena_asc') {
+            $query .= " ORDER BY cena_po_satu ASC";
+        } elseif ($sort == 'cena_desc') {
+            $query .= " ORDER BY cena_po_satu DESC";
+        } elseif ($sort == 'kapacitet_asc') {
+            $query .= " ORDER BY kapacitet ASC";
+        } elseif ($sort == 'kapacitet_desc') {
+            $query .= " ORDER BY kapacitet DESC";
         }
         $result = $db->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);

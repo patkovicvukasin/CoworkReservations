@@ -19,6 +19,8 @@ $prostori = Prostor::sviProstori($db, $sort);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dostupni Prostori - Cowork Reservations</title>
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Opcionalno: možeš dodati i font awesome ako već nije uključen -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
   <header>
@@ -39,10 +41,17 @@ $prostori = Prostor::sviProstori($db, $sort);
       <p>Izaberite prostor da vidite detalje i rezervišete termin.</p>
     </section>
 
-    <!-- Opcije za sortiranje -->
+    <!-- Dropdown meni za sortiranje -->
     <section class="sorting-options" style="text-align: center; margin-bottom: 20px;">
-      <a href="?sort=kapacitet" class="btn">Sortiraj po kapacitetu</a>
-      <a href="?sort=cena" class="btn">Sortiraj po ceni</a>
+      <form method="GET" id="sortForm">
+        <select name="sort" onchange="this.form.submit()">
+          <option value="" <?php if (!$sort) echo 'selected'; ?>>-- Sortiraj po --</option>
+          <option value="cena_asc" <?php if ($sort == 'cena_asc') echo 'selected'; ?>>Cena rastući</option>
+          <option value="cena_desc" <?php if ($sort == 'cena_desc') echo 'selected'; ?>>Cena opadajući</option>
+          <option value="kapacitet_asc" <?php if ($sort == 'kapacitet_asc') echo 'selected'; ?>>Kapacitet rastući</option>
+          <option value="kapacitet_desc" <?php if ($sort == 'kapacitet_desc') echo 'selected'; ?>>Kapacitet opadajući</option>
+        </select>
+      </form>
     </section>
 
     <section class="prostori">
