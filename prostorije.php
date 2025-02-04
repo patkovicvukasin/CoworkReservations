@@ -9,7 +9,8 @@ include 'classes/Database.php';
 include 'classes/Prostor.php';
 
 $db = new Database();
-$prostori = Prostor::sviProstori($db);
+$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+$prostori = Prostor::sviProstori($db, $sort);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,13 @@ $prostori = Prostor::sviProstori($db);
       <h1>Dostupni Prostori</h1>
       <p>Izaberite prostor da vidite detalje i rezervišete termin.</p>
     </section>
+
+    <!-- Opcije za sortiranje -->
+    <section class="sorting-options" style="text-align: center; margin-bottom: 20px;">
+      <a href="?sort=kapacitet" class="btn">Sortiraj po kapacitetu</a>
+      <a href="?sort=cena" class="btn">Sortiraj po ceni</a>
+    </section>
+
     <section class="prostori">
       <?php if (!empty($prostori)): ?>
         <?php foreach ($prostori as $prostor): ?>
@@ -46,7 +54,7 @@ $prostori = Prostor::sviProstori($db);
               <img src="images/<?php echo htmlspecialchars($prostor['slika']); ?>" alt="<?php echo htmlspecialchars($prostor['naziv']); ?>" class="prostor-thumb">
             <?php endif; ?>
             <p><strong>Kapacitet:</strong> <?php echo $prostor['kapacitet']; ?> osoba</p>
-            <p><strong>Adresa:</strong> <?php echo $prostor['adresa']; ?> </p>
+            <p><strong>Adresa:</strong> <?php echo htmlspecialchars($prostor['adresa']); ?></p>
             <p><strong>Cena po satu:</strong> <?php echo $prostor['cena_po_satu']; ?> RSD</p>
             <a href="detalji.php?prostor_id=<?php echo $prostor['id']; ?>" class="btn">Pogledaj Detalje</a>
           </div>

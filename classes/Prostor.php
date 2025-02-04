@@ -15,8 +15,13 @@ class Prostor {
         $this->status = $status;
     }
 
-    public static function sviProstori($db) {
-        $query = "SELECT * FROM prostor WHERE status='dostupno'";
+    public static function sviProstori($db, $sort = null) {
+        $query = "SELECT * FROM prostor WHERE status = 'dostupno'";
+        if ($sort == 'kapacitet') {
+            $query .= " ORDER BY kapacitet";
+        } elseif ($sort == 'cena') {
+            $query .= " ORDER BY cena_po_satu";
+        }
         $result = $db->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
